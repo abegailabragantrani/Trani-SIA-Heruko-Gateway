@@ -2,9 +2,9 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-(new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(dirname(__DIR__)))->bootstrap();
-
-
+(new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
+    dirname(__DIR__)
+))->bootstrap();
 
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
@@ -24,9 +24,13 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
- $app->withEloquent();
- $app->configure('services');
- $app->configure('auth');
+
+$app->withEloquent();
+
+$app->configure('services');
+
+$app->configure('auth');
+
 $app->configure('database');
 
 /*
@@ -81,7 +85,7 @@ $app->configure('app');
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
     'client.credentials' => Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
- ]);
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -94,9 +98,7 @@ $app->routeMiddleware([
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
- $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
@@ -110,6 +112,7 @@ $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 | can respond to, as well as the controllers that may handle them.
 |
 */
+
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
